@@ -29,7 +29,7 @@ This exercise will test your understanding of:
 
 ## 📋 Requirements
 
-### Part 1: Project Setup ⚙️ (30 min)
+### Part 1: Project Setup ⚙️
 
 1. Create a new React project using Vite with the TypeScript template
 2. Set up SCSS for styling
@@ -42,7 +42,7 @@ This exercise will test your understanding of:
    └── assets/
    ```
 
-### Part 2: Data & Types 📝 (30 min)
+### Part 2: Data & Types 📝
 
 1. Create a TypeScript interface for a `Book` in `src/types/book.ts`:
    ```typescript
@@ -74,7 +74,7 @@ This exercise will test your understanding of:
 
    **Helper:** Create a utility function to transform API response to your `Book` interface.
 
-### Part 3: Core Components 🧩 (2 hours)
+### Part 3: Core Components 🧩
 
 Build the following components with proper TypeScript props interfaces:
 
@@ -102,7 +102,7 @@ Build the following components with proper TypeScript props interfaces:
 - Highlight the currently selected genre
 - Include an "All" option to clear the filter
 
-### Part 4: Reading List Feature 📖 (1.5 hours)
+### Part 4: Reading List Feature 📖
 
 #### 4.1 `ReadingListItem` Component
 - Display book info with reading status
@@ -128,7 +128,7 @@ In your main `App` component:
   - `updateReadingStatus(bookId, newStatus)` - use `.map()`
   - `updateCurrentPage(bookId, page)` - use `.map()` with object spread
 
-### Part 5: Advanced Features 🚀 (1 hour)
+### Part 5: Advanced Features 🚀
 
 #### 5.1 Statistics Component
 Create a `ReadingStats` component that displays:
@@ -142,7 +142,7 @@ This component should be **pure** - derive all values from props, don't use inte
 #### 5.2 Lifting State Up
 Implement a feature where clicking a book in `BookList` OR `ReadingList` shows a `BookDetail` modal/panel. The "selected book" state should be lifted to `App` and passed down to both components.
 
-### Part 6: Styling 🎨 (30 min)
+### Part 6: Styling 🎨
 
 - Style your application using SCSS
 - Use SCSS features: variables, nesting, and/or mixins
