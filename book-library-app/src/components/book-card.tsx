@@ -3,14 +3,14 @@ import type { Book } from "../types/book.ts";
 
 interface BookCardProps {
     book: Book;
-    onAddToList: (book_id: string) => void;
-    isInReadingList: (book_id: string) => boolean;
+    isInReadingList: boolean;
+    onAddToList: () => void;
 }
 
 
-function BookCard ({book, onAddToList, isInReadingList}: BookCardProps) {
+export function BookCard ({book, onAddToList, isInReadingList}: BookCardProps) {
     return (
-        <div key={book.id} className="book-card">
+        <div className="book-card">
             <img src={book.getCoverImageUrl()} alt={book.title} className="book-cover" />
             <h3 className="book-title">{book.title}</h3>
             <p className="book-author">{book.author}</p>
@@ -19,10 +19,10 @@ function BookCard ({book, onAddToList, isInReadingList}: BookCardProps) {
             <p className="genre">{book.genre}</p>
             <p className="book-pagecount">{book.pageCount}</p>
             <div className="add-to-list-container">
-                {isInReadingList(book.id) ? (
+                {isInReadingList ? (
                     <p className="already-in-list">Already Added</p>
                 ) : (
-                    <button onClick={() => onAddToList(book.id)} className="add-to-list-button">
+                    <button onClick={() => onAddToList()} className="add-to-list-button">
                         Add to List
                     </button>
                 )}
