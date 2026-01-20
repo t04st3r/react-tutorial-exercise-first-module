@@ -1,0 +1,15 @@
+.search-bar {
+  margin-bottom: 20px;
+
+  &__input {
+    padding: 5px;
+    margin-right: 5px;
+    color: black;
+  }
+
+  &__button {
+    padding: 5px 10px;
+    color: black;
+    cursor: pointer;
+  }
+}

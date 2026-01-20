@@ -1,0 +1,40 @@
+.reading-list-item {
+  border: 1px solid black;
+  margin-bottom: 5px;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: black;
+
+  &__info {
+    flex: 1;
+  }
+
+  &__progress {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .progress-bar-container {
+    width: 60px;
+    height: 10px;
+    border: 1px solid black;
+    background: #eee;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: black;
+  }
+
+  .remove-btn {
+    margin-left: 10px;
+    background: pink;
+    border: 1px solid black;
+    cursor: pointer;
+  }
+}

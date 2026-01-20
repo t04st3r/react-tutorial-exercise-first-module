@@ -1,0 +1,16 @@
+.language-filter {
+  margin-bottom: 20px;
+
+  &__button {
+    margin-right: 5px;
+    padding: 2px 5px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #ccc;
+    color: black;
+
+    &--active {
+      background: #ccc;
+    }
+  }
+}
