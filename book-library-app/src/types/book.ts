@@ -7,4 +7,6 @@ export interface Book {
     publishedYear: number;
     genre: string;
     pageCount: number;
+
+    getCoverImageUrl(): string;
 }
