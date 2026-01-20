@@ -1,6 +1,6 @@
-import Book from './book';
+import type { Book } from './book';
 
-interface ReadingListItem {
+export interface ReadingListItem {
   book: Book;
   status: 'to-read' | 'reading' | 'completed';
   currentPage: number;
