@@ -1,31 +1,34 @@
-# 📚 React Fundamentals Assessment - Module 1
+# React + TypeScript + Vite
 
-## 🎯 Exercise: Build a Book Library Application
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### Overview
+Currently, two official plugins are available:
 
-In this assessment, you will build a **Book Library Application** using React, TypeScript, and Vite. The application will allow users to browse books, search/filter them, manage a reading list, and track their reading progress.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 ⏱️ **Estimated completion time:** ~10 hours
 
----
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🎓 Learning Objectives
+## Expanding the ESLint configuration
 
-This exercise will test your understanding of:
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-- Project setup with Vite, React, and TypeScript
-- Component composition and architecture
-- Props and TypeScript interfaces
-- State management with `useState`
-- Event handling and propagation
-- Conditional rendering
-- List rendering with keys
-- Immutable state updates (objects and arrays)
-- Lifting state up
-- Component purity
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
----
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
 ## 📋 Requirements
 
@@ -188,73 +191,3 @@ https://openlibrary.org/search.json?q=javascript&limit=20
   ]
 }
 ```
-
-**Cover Image URL Pattern:**
-```
-https://covers.openlibrary.org/b/id/{cover_i}-M.jpg
-```
-Replace `{cover_i}` with the `cover_i` value from the API response. Use `-S` for small, `-M` for medium, or `-L` for large images.
-
----
-
-## ✅ Evaluation Criteria
-
-Your submission will be evaluated on:
-
-| Criteria | Weight | Description |
-|----------|--------|-------------|
-| **Project Setup** | 10% | Correct Vite + TypeScript + SCSS configuration |
-| **TypeScript Usage** | 15% | Proper interfaces, type annotations, generic types |
-| **Component Architecture** | 20% | Clean separation, reusability, proper prop definitions |
-| **State Management** | 20% | Correct useState usage, immutable updates, lifting state |
-| **Event Handling** | 15% | Proper handlers, propagation control, form handling |
-| **Conditional & List Rendering** | 10% | Correct patterns, proper keys, edge cases handled |
-| **Code Quality & Styling** | 10% | Clean code, SCSS usage, responsive design |
-
----
-
-## 📦 Submission Requirements
-
-1. Push your code to a Git repository
-2. Include a `README.md` in your project with:
-   - Setup instructions
-   - Brief description of your implementation decisions
-3. Ensure `npm install && npm run dev` works without errors
-4. Ensure `npm run build` completes without TypeScript errors
-
----
-
-## 💡 Hints & Tips
-
-- Start by setting up the project and creating all type definitions
-- Build components bottom-up (start with smaller, simpler ones)
-- Test each component in isolation before integrating
-- Use React DevTools to debug state and props
-- Remember: state updates are asynchronous and batched
-- When updating arrays/objects in state, always create new references
-- Use the browser console to debug API responses before transforming them
-
----
-
-## ⭐ Bonus Challenges (Optional)
-
-If you finish early, consider adding:
-
-- **Local Storage Persistence:** Save reading list to localStorage and restore on page load
-- **Loading States:** Add loading spinners while fetching from API
-- **Error Handling:** Display user-friendly error messages when API calls fail
-- **Sorting:** Allow sorting books by title, author, or year
-
----
-
-## 📚 Resources
-
-- [React Documentation](https://react.dev/)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/)
-- [Vite Documentation](https://vitejs.dev/guide/)
-- [Open Library API](https://openlibrary.org/developers/api)
-- [SCSS Documentation](https://sass-lang.com/documentation/)
-
----
-
-🍀 Good luck! Remember to commit your progress regularly and don't hesitate to refer back to the tutorial materials if needed. Happy coding! 💻
