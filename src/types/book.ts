@@ -1,12 +1,15 @@
-interface Book {
+
+export interface Book {
   id: string;
   title: string;
-  author: string;
+  author_key: string[];
+  author_name: string[];
   description: string;
   coverImage: string;
   publishedYear: number;
   genre: string;
   pageCount: number;
+  cover_i: number;
 }
 
 interface ReadingListItem {
@@ -14,4 +17,10 @@ interface ReadingListItem {
   status: 'to-read' | 'reading' | 'completed';
   currentPage: number;
   dateAdded: string;
+}
+
+export type OpenLibraryResponse = {
+  numFound: number;
+  docs: Book[]
+
 }
