@@ -7,7 +7,6 @@ type BookProps = {
 
 export default function BookCard({book}: BookProps) {
 
-    // console.log(book)
     return (
         <div className='card'>
             <h2>{book.title}</h2>
