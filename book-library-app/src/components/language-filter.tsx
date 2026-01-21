@@ -12,7 +12,7 @@ export function LanguageFilter ({languages, selectedLanguage, onSelectLanguage}:
             <div className="language-filter-list">
                 <button
                     key="All"
-                    className={selectedLanguage === '' ? "selected-language-filter-button": "language-filter-button"}
+                    className={selectedLanguage === 'all' ? "selected-language-filter-button": "language-filter-button"}
                     onClick={() => onSelectLanguage("all")}>
                     "All"
                 </button>

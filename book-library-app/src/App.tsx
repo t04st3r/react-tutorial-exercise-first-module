@@ -8,7 +8,6 @@ import type { iBook } from "./types/book.ts";
 import { Book } from "./types/book.ts";
 
 
-
 const bookLibrarySearchApi = import.meta.env.VITE_BOOK_LIBRARY_SEARCH_API_URL;
 const bookLibrarySearchLimit = import.meta.env.VITE_BOOK_LIBRARY_SEARCH_LIMIT;
 
@@ -16,6 +15,7 @@ const bookLibrarySearchLimit = import.meta.env.VITE_BOOK_LIBRARY_SEARCH_LIMIT;
 function App() {
     const [searchCriteria, setSearchCriteria] = useState<string>('');
     const [books, setBooks] = useState<Array<iBook>>([]);
+    const [filteredBooks, setFilteredBooks] = useState<Array<iBook>>([]);
     const [languages, setLanguages] = useState<Set<string>>(new Set());
     const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
     const [readingList, setReadingList] = useState<Array<iBook>>([]);
@@ -49,12 +49,24 @@ function App() {
             });
 
             setBooks(retrievedBooks);
+            setFilteredBooks(retrievedBooks);
             setLanguages(retrievedLanguages);
 
         } catch (error) {
             console.error(error);
             setBooks([]);
+            setFilteredBooks([]);
         }
+    }
+
+    function filterBooksByLanguage(language: string) {
+        setSelectedLanguage(language);
+        setFilteredBooks(() => {
+            if (language === 'all') {
+                return books;
+            }
+            return books.filter((book) => book.language === language);
+        });
     }
 
     function onAddToReadingList(book: iBook) {
@@ -66,9 +78,9 @@ function App() {
             <h1>Book Library App</h1>
             <div className="tools-panel">
                 <SearchBar value={searchCriteria} onChange={setSearchCriteria} onSubmit={fetchBooks} />
-                <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectLanguage={setSelectedLanguage} />
+                <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectLanguage={filterBooksByLanguage} />
             </div>
-            <BookList books={books} readingList={readingList} onAddToList={onAddToReadingList}/>
+            <BookList books={filteredBooks} readingList={readingList} onAddToList={onAddToReadingList}/>
         </div>
     );
 }
