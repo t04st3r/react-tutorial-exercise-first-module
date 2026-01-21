@@ -28,88 +28,64 @@ export function GenreFilter({
   };
 
   return (
-    <div className="w-full">
-      <h3 className="text-sm font-medium text-gray-700 mb-3">
-        Filter by Genre
-      </h3>
+    <div className="genre-filter">
+      <h3 className="filter-title">Filter by Genre</h3>
 
-      <div className="flex flex-wrap gap-2">
-        {/* "All" button */}
+      <div className="filter-chips">
         <button
           onClick={() => handleGenreClick(null)}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-            isSelected(null)
-              ? 'bg-blue-600 text-white shadow-md'
-              : 'bg-white text-gray-700 border border-gray-300 hover:border-blue-400 hover:bg-blue-50'
-          }`}
+          className={`chip ${isSelected(null) ? 'active' : ''}`}
           aria-pressed={isSelected(null)}
           aria-label="Show all genres"
         >
-          <span className="flex items-center gap-1.5">
-            All
-            {getCount(null) !== undefined && (
-              <span className={`text-xs px-1.5 py-0.5 rounded ${
-                isSelected(null) ? 'bg-blue-500' : 'bg-gray-200'
-              }`}>
-                {getCount(null)}
-              </span>
-            )}
-          </span>
+          All
+          {getCount(null) !== undefined && (
+            <span className="count">{getCount(null)}</span>
+          )}
         </button>
 
-        {/* Genre filter buttons */}
         {genres.map((genre) => (
           <button
             key={genre}
             onClick={() => handleGenreClick(genre)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-              isSelected(genre)
-                ? 'bg-blue-600 text-white shadow-md'
-                : 'bg-white text-gray-700 border border-gray-300 hover:border-blue-400 hover:bg-blue-50'
-            }`}
+            className={`chip ${isSelected(genre) ? 'active' : ''}`}
             aria-pressed={isSelected(genre)}
             aria-label={`Filter by ${genre}`}
           >
-            <span className="flex items-center gap-1.5">
-              {genre}
-              {getCount(genre) !== undefined && (
-                <span className={`text-xs px-1.5 py-0.5 rounded ${
-                  isSelected(genre) ? 'bg-blue-500' : 'bg-gray-200'
-                }`}>
-                  {getCount(genre)}
-                </span>
-              )}
-            </span>
+            {genre}
+            {getCount(genre) !== undefined && (
+              <span className="count">{getCount(genre)}</span>
+            )}
           </button>
         ))}
       </div>
 
-      {/* Active filter indicator */}
       {selectedGenre && (
-        <div className="mt-3 flex items-center gap-2 text-sm text-gray-600">
-          <svg
-            className="h-4 w-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
-            />
-          </svg>
+        <div className="active-filter">
           <span>
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+              />
+            </svg>
             Filtering by: <strong>{selectedGenre}</strong>
             {getCount(selectedGenre) !== undefined && (
-              <span className="text-gray-500"> ({getCount(selectedGenre)} books)</span>
+              <span> ({getCount(selectedGenre)} books)</span>
             )}
           </span>
           <button
             onClick={() => handleGenreClick(null)}
-            className="ml-1 text-blue-600 hover:text-blue-800 font-medium"
+            className="clear-button"
             aria-label="Clear genre filter"
           >
             Clear

@@ -1,0 +1,199 @@
+@use 'variables' as *;
+
+// Responsive breakpoints
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) { @content; }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) { @content; }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) { @content; }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+// Button mixin
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  font-weight: 500;
+  border-radius: $radius-lg;
+  transition: all $transition-base ease;
+  cursor: pointer;
+  border: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-500;
+    outline-offset: 2px;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background-color: $primary-600;
+  color: white;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-700;
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background-color: $bg-tertiary;
+  color: $text-primary;
+
+  &:hover:not(:disabled) {
+    background-color: $neutral-300;
+  }
+}
+
+// Card mixin
+@mixin card {
+  background-color: $bg-primary;
+  border: 1px solid $border-light;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-md;
+  padding: $spacing-lg;
+  transition: all $transition-base ease;
+}
+
+@mixin card-hover {
+  &:hover {
+    box-shadow: $shadow-xl;
+    border-color: $primary-600;
+    transform: translateY(-2px);
+  }
+}
+
+// Input mixin
+@mixin input-base {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $border-light;
+  border-radius: $radius-lg;
+  background-color: $bg-primary;
+  color: $text-primary;
+  transition: all $transition-fast ease;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-500;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  &:disabled {
+    background-color: $bg-tertiary;
+    cursor: not-allowed;
+  }
+
+  &::placeholder {
+    color: $text-tertiary;
+  }
+}
+
+// Progress bar mixin
+@mixin progress-bar($color) {
+  width: 100%;
+  height: 0.5rem;
+  background-color: $neutral-200;
+  border-radius: $radius-full;
+  overflow: hidden;
+
+  .progress-fill {
+    height: 100%;
+    background-color: $color;
+    border-radius: $radius-full;
+    transition: width $transition-slow ease;
+  }
+}
+
+// Badge mixin
+@mixin badge($bg-color, $text-color) {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-full;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: $bg-color;
+  color: $text-color;
+  border: 1px solid transparent;
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Text utilities
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Smooth scrolling
+@mixin smooth-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Animation
+@mixin fade-in {
+  animation: fadeIn $transition-base ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@mixin slide-up {
+  animation: slideUp $transition-base ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

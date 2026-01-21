@@ -26,21 +26,11 @@ export function SearchBar({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
-      <div className="flex gap-2">
-        <div className="flex-1 relative">
-          <input
-            type="text"
-            value={value}
-            onChange={handleInputChange}
-            placeholder={placeholder}
-            disabled={isSearching}
-            className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-            aria-label="Search books"
-          />
-          {/* Search icon */}
+    <div className="search-bar">
+      <form onSubmit={handleSubmit}>
+        <div className="search-input-wrapper">
           <svg
-            className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400"
+            className="search-icon"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -53,18 +43,26 @@ export function SearchBar({
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>
+          <input
+            type="text"
+            value={value}
+            onChange={handleInputChange}
+            placeholder={placeholder}
+            disabled={isSearching}
+            aria-label="Search books"
+          />
         </div>
 
         <button
           type="submit"
           disabled={isSearching || !value.trim()}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="search-button"
           aria-label="Submit search"
         >
           {isSearching ? (
-            <span className="flex items-center gap-2">
+            <>
               <svg
-                className="animate-spin h-5 w-5 text-white"
+                className="spinner"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -85,12 +83,12 @@ export function SearchBar({
                 />
               </svg>
               Searching...
-            </span>
+            </>
           ) : (
             'Search'
           )}
         </button>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 }

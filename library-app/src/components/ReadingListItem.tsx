@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { ReadingListItem } from '../types/reading_list_item';
-import type { Book } from "../types/book";
+import type { Book } from '../types/book';
 
 interface ReadingListItemProps {
   item: ReadingListItem;
@@ -19,10 +19,10 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
 
   const getStatusColor = (s: string) => {
     switch (s) {
-      case 'to-read': return 'bg-gray-100 text-gray-700 border-gray-300';
-      case 'reading': return 'bg-blue-100 text-blue-700 border-blue-300';
-      case 'completed': return 'bg-green-100 text-green-700 border-green-300';
-      default: return 'bg-gray-100 text-gray-700 border-gray-300';
+      case 'to-read': return 'to-read';
+      case 'reading': return 'reading';
+      case 'completed': return 'completed';
+      default: return 'to-read';
     }
   };
 
@@ -63,104 +63,81 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-      <div className="flex gap-4">
-        {/* Book Cover */}
-        <div className="flex-shrink-0 cursor-pointer" onClick={() => onViewDetails?.(book)}>
+    <div className="reading-list-item">
+      <div className="item-content">
+        <div className="item-cover" onClick={() => onViewDetails?.(book)}>
           <img
             src={book.coverImage}
             alt={`Cover of ${book.title}`}
-            className="w-20 h-28 object-cover rounded shadow-sm hover:shadow-lg transition-shadow"
           />
         </div>
 
-        {/* Book Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-2 mb-2">
-            <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onViewDetails?.(book)}>
-              <h3 className="font-semibold text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">
-                {book.title}
-              </h3>
-              <p className="text-sm text-gray-600 truncate">{book.author}</p>
+        <div className="item-details">
+          <div className="item-header">
+            <div className="item-title-section" onClick={() => onViewDetails?.(book)}>
+              <h3>{book.title}</h3>
+              <p className="item-author">{book.author}</p>
             </div>
             <button
               onClick={handleRemove}
-              className="flex-shrink-0 p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+              className="remove-button"
               aria-label="Remove from reading list"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          {/* Status Badges */}
-          <div className="flex flex-wrap gap-2 mb-3">
+          <div className="status-badges">
             <button
               onClick={() => handleStatusChange('to-read')}
-              className={`text-xs px-3 py-1 rounded-full border font-medium transition-colors ${
-                status === 'to-read' 
-                  ? getStatusColor('to-read') 
-                  : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-50'
-              }`}
+              className={`status-badge ${status === 'to-read' ? `active ${getStatusColor('to-read')}` : ''}`}
             >
               To Read
             </button>
             <button
               onClick={() => handleStatusChange('reading')}
-              className={`text-xs px-3 py-1 rounded-full border font-medium transition-colors ${
-                status === 'reading' 
-                  ? getStatusColor('reading') 
-                  : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-50'
-              }`}
+              className={`status-badge ${status === 'reading' ? `active ${getStatusColor('reading')}` : ''}`}
             >
               Reading
             </button>
             <button
               onClick={() => handleStatusChange('completed')}
-              className={`text-xs px-3 py-1 rounded-full border font-medium transition-colors ${
-                status === 'completed' 
-                  ? getStatusColor('completed') 
-                  : 'bg-white text-gray-500 border-gray-300 hover:bg-gray-50'
-              }`}
+              className={`status-badge ${status === 'completed' ? `active ${getStatusColor('completed')}` : ''}`}
             >
               Completed
             </button>
           </div>
 
-          {/* Progress Section */}
           {book.pageCount > 0 && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-gray-600">
+            <div className="progress-section">
+              <div className="progress-header">
                 <span>Progress</span>
                 <span>{Math.round(progress)}%</span>
               </div>
 
-              {/* Progress Bar */}
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+              <div className={`progress-bar ${status === 'completed' ? 'completed' : ''}`}>
                 <div
-                  className={`h-full rounded-full transition-all duration-300 ${
-                    status === 'completed' ? 'bg-green-500' : 'bg-blue-500'
-                  }`}
+                  className="progress-fill"
                   style={{ width: `${Math.min(progress, 100)}%` }}
                 />
               </div>
 
-              {/* Page Controls */}
-              <div className="flex items-center gap-2">
+              <div className="page-controls">
                 <button
                   onClick={handleDecrementPage}
                   disabled={currentPage === 0}
-                  className="p-1 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="page-button"
                   aria-label="Decrease page"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
 
-                <div className="flex items-center gap-1 text-sm">
-                  <span className="text-gray-500">Page</span>
+                <div className="page-input-group">
+                  <span className="page-label">Page</span>
                   <input
                     type="number"
                     value={pageInput}
@@ -168,18 +145,17 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
                     onBlur={handlePageInputBlur}
                     min="0"
                     max={book.pageCount}
-                    className="w-16 px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-                  <span className="text-gray-500">of {book.pageCount}</span>
+                  <span className="page-label">of {book.pageCount}</span>
                 </div>
 
                 <button
                   onClick={handleIncrementPage}
                   disabled={currentPage === book.pageCount}
-                  className="p-1 rounded hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+                  className="page-button"
                   aria-label="Increase page"
                 >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -187,21 +163,17 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
             </div>
           )}
 
-          {/* Expand Button */}
           {book.description && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium"
+              className="expand-button"
             >
               {isExpanded ? 'Show less' : 'Show more'}
             </button>
           )}
 
-          {/* Expanded Description */}
           {isExpanded && book.description && (
-            <p className="mt-2 text-sm text-gray-600 leading-relaxed">
-              {book.description}
-            </p>
+            <p className="item-description">{book.description}</p>
           )}
         </div>
       </div>

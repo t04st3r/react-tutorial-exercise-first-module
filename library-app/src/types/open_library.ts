@@ -7,7 +7,12 @@ export interface OpenLibraryDoc {
   isbn?: string[];
   subject?: string[];
   number_of_pages_median?: number;
+  number_of_pages?: number[];
   first_sentence?: string[];
+  publisher?: string[];
+  publish_year?: number[];
+  language?: string[];
+  edition_count?: number;
 }
 
 export interface OpenLibrarySearchResponse {

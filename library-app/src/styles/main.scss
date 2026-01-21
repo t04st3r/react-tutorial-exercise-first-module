@@ -1,0 +1,332 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'components';
+
+// Color scheme support
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+  }
+}
+
+// Base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: $text-primary;
+  background-color: $bg-secondary;
+  line-height: 1.5;
+}
+
+// App Layout
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg,
+    light-dark(rgba(219, 234, 254, 0.3), rgba(30, 58, 138, 0.2)) 0%,
+    light-dark(rgba(255, 255, 255, 0.5), rgba(17, 24, 39, 0.5)) 50%,
+    light-dark(rgba(243, 232, 255, 0.3), rgba(88, 28, 135, 0.2)) 100%
+  );
+
+  // Header
+  .app-header {
+    background-color: $bg-primary;
+    box-shadow: $shadow-sm;
+    border-bottom: 1px solid $border-light;
+
+    .header-container {
+      max-width: 80rem;
+      margin: 0 auto;
+      padding: $spacing-lg $spacing-md;
+
+      .header-content {
+        @include flex-between;
+        flex-wrap: wrap;
+        gap: $spacing-md;
+
+        .header-logo {
+          display: flex;
+          align-items: center;
+          gap: $spacing-md;
+
+          h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: $text-primary;
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+
+            svg {
+              width: 2rem;
+              height: 2rem;
+              color: $primary-600;
+            }
+          }
+
+          .header-subtitle {
+            margin-top: $spacing-xs;
+            font-size: 0.875rem;
+            color: $text-secondary;
+          }
+        }
+
+        .header-nav {
+          display: flex;
+          align-items: center;
+          gap: $spacing-md;
+
+          nav {
+            display: flex;
+            gap: $spacing-sm;
+
+            .nav-button {
+              @include button-base;
+              padding: $spacing-sm $spacing-md;
+
+              &.active {
+                background-color: $primary-600;
+                color: white;
+              }
+
+              &:not(.active) {
+                background-color: $neutral-100;
+                color: $text-primary;
+
+                &:hover {
+                  background-color: $neutral-200;
+                }
+              }
+
+              .badge {
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 0.125rem 0.5rem;
+                border-radius: $radius-full;
+
+                &.active-badge {
+                  background-color: rgba(255, 255, 255, 0.2);
+                  color: white;
+                }
+
+                &.inactive-badge {
+                  background-color: rgba(59, 130, 246, 0.1);
+                  color: $primary-600;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      @include respond-to(sm) {
+        padding: $spacing-xl $spacing-md;
+      }
+
+      @include respond-to(md) {
+        .header-content {
+          flex-wrap: nowrap;
+        }
+      }
+    }
+  }
+
+  // Main content
+  .app-main {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: $spacing-lg $spacing-md;
+
+    @include respond-to(md) {
+      padding: $spacing-xl $spacing-md;
+    }
+  }
+}
+
+// Section cards
+.section-card {
+  @include card;
+  margin-bottom: $spacing-xl;
+  @include fade-in;
+
+  .section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  .section-content {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+}
+
+// Empty states
+.empty-state {
+  text-align: center;
+  padding: $spacing-2xl $spacing-md;
+
+  .empty-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto $spacing-md;
+    padding: $spacing-md;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    @include flex-center;
+
+    svg {
+      width: 2.5rem;
+      height: 2.5rem;
+      color: $primary-600;
+    }
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: $text-secondary;
+    margin-bottom: $spacing-lg;
+  }
+
+  .suggestion-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    justify-content: center;
+
+    button {
+      @include button-secondary;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Loading state
+.loading-state {
+  text-align: center;
+  padding: $spacing-2xl $spacing-md;
+
+  .spinner {
+    width: 3rem;
+    height: 3rem;
+    margin: 0 auto $spacing-md;
+    color: $primary-600;
+    animation: spin 1s linear infinite;
+  }
+
+  p {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $text-secondary;
+  }
+}
+
+// Error message
+.error-message {
+  padding: $spacing-md;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: $radius-lg;
+
+  .error-content {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    font-size: 0.875rem;
+    color: light-dark(#dc2626, #fca5a5);
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex-shrink: 0;
+    }
+  }
+}
+
+// Results header
+.results-header {
+  @include flex-between;
+  margin-bottom: $spacing-md;
+
+  h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: $text-primary;
+  }
+
+  .results-count {
+    font-size: 0.875rem;
+    color: $text-secondary;
+  }
+}
+
+// Grid layouts
+.book-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $spacing-lg;
+
+  @include respond-to(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to(md) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to(lg) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @include respond-to(xl) {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+// Accessibility
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Focus visible
+*:focus-visible {
+  outline: 2px solid $primary-500;
+  outline-offset: 2px;
+}
+
+// Smooth transitions for theme changes
+* {
+  transition: background-color $transition-base ease,
+              border-color $transition-base ease,
+              color $transition-base ease;
+}
