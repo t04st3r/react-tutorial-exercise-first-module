@@ -1,8 +1,8 @@
-import type { Book } from "../types/book.ts";
+import type { iBook } from "../types/book.ts";
 
 
 interface BookCardProps {
-    book: Book;
+    book: iBook;
     isInReadingList: boolean;
     onAddToList: () => void;
 }
@@ -16,7 +16,7 @@ export function BookCard ({book, onAddToList, isInReadingList}: BookCardProps) {
             <p className="book-author">{book.author}</p>
             <p className="book-description">{book.description}</p>
             <p className="book-year">{book.publishedYear}</p>
-            <p className="genre">{book.genre}</p>
+            <p className="genre">{book.language}</p>
             <p className="book-pagecount">{book.pageCount}</p>
             <div className="add-to-list-container">
                 {isInReadingList ? (

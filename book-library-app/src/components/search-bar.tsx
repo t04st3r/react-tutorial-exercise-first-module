@@ -1,6 +1,3 @@
-import * as React from "react";
-
-
 interface SearchBarProps {
     value: string;
     onChange: (value: string) => void;
@@ -8,9 +5,10 @@ interface SearchBarProps {
 }
 
 
-function SearchBar ({ value, onChange, onSubmit }: SearchBarProps) {
+export function SearchBar ({ value, onChange, onSubmit }: SearchBarProps) {
     return (
         <div className="search-bar">
+            <h2>Book Search</h2>
             <input
                 type="text"
                 value={value}

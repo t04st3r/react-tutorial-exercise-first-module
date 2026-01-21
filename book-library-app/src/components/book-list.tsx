@@ -1,15 +1,15 @@
-import type { Book } from "../types/book.ts";
+import type { iBook } from "../types/book.ts";
 import { BookCard } from "./book-card.tsx";
 
 
 interface BookListProps {
-    books: Array<Book>;
-    readingList: Array<string>;
-    onAddToList: (book_id: string) => void;
+    books: Array<iBook>;
+    readingList: Array<iBook>;
+    onAddToList: (book: iBook) => void;
 }
 
 
-function BookList ({books, readingList, onAddToList}: BookListProps) {
+export function BookList ({books, readingList, onAddToList}: BookListProps) {
     return (
         <div className="book-list-panel">
             <h2>Book List</h2>
@@ -19,8 +19,8 @@ function BookList ({books, readingList, onAddToList}: BookListProps) {
                         <BookCard
                             key={book.id}
                             book={book}
-                            onAddToList={() => onAddToList(book.id)}
-                            isInReadingList={readingList.indexOf(book.id) > -1}
+                            onAddToList={() => onAddToList(book)}
+                            isInReadingList={readingList.indexOf(book) > -1}
                         />
                     ))
                 )}
