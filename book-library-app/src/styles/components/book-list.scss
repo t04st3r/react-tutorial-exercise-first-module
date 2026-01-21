@@ -1,0 +1,23 @@
+@use '../variables' as *;
+
+.book-list-panel {
+  h2 {
+    text-align: center;
+    color: $text-color;
+    margin-bottom: 20px;
+  }
+}
+
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.no-books {
+  text-align: center;
+  color: $secondary-color;
+  font-style: italic;
+  width: 100%;
+}

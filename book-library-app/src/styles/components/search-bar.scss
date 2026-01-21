@@ -1,0 +1,43 @@
+@use '../variables' as *;
+
+.search-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h2 {
+    margin-bottom: 16px;
+    color: $text-color;
+  }
+
+  .search-input {
+    padding: 10px 16px;
+    border: 1px solid #ccc;
+    border-radius: $border-radius;
+    font-size: 1rem;
+    width: 300px;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 10px;
+
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+
+  .search-button {
+    padding: 10px 20px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: $border-radius;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+}
