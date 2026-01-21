@@ -6,7 +6,7 @@
 
 In this assessment, you will build a **Book Library Application** using React, TypeScript, and Vite. The application will allow users to browse books, search/filter them, manage a reading list, and track their reading progress.
 
-⏱️ **Estimated completion time:** ~6 hours
+⏱️ **Estimated completion time:** ~10 hours
 
 ---
 
@@ -53,7 +53,7 @@ This exercise will test your understanding of:
      description: string;
      coverImage: string;
      publishedYear: number;
-     genre: string;
+     language: string;
      pageCount: number;
    }
    ```
@@ -73,6 +73,11 @@ This exercise will test your understanding of:
    - Cover images: `https://covers.openlibrary.org/b/id/{cover_id}-M.jpg`
 
    **Helper:** Create a utility function to transform API response to your `Book` interface.
+
+   **Mapping rules:**
+   - `author`: Pick the first element from `author_name` array, or `"Unknown"` if not available
+   - `language`: Pick the first element from `language` array, or `"Unknown"` if not available
+   - `description`: Set to a hardcoded string like `"Some description here"` (not available in search results)
 
 ### Part 3: Core Components 🧩
 
@@ -96,10 +101,10 @@ Build the following components with proper TypeScript props interfaces:
 - Handle form submission with `preventDefault()`
 - Implement controlled input pattern
 
-#### 3.4 `GenreFilter` Component
-- Display filter buttons/chips for genres
-- Accept props: `genres`, `selectedGenre`, `onSelectGenre`
-- Highlight the currently selected genre
+#### 3.4 `LanguageFilter` Component
+- Display filter buttons/chips for languages
+- Accept props: `languages`, `selectedLanguage`, `onSelectLanguage`
+- Highlight the currently selected language
 - Include an "All" option to clear the filter
 
 ### Part 4: Reading List Feature 📖
@@ -178,7 +183,7 @@ https://openlibrary.org/search.json?q=javascript&limit=20
       "first_publish_year": 2008,
       "cover_i": 8091016,
       "number_of_pages_median": 176,
-      "subject": ["JavaScript", "Programming"]
+      "language": ["eng", "spa"]
     }
   ]
 }
