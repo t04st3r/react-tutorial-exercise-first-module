@@ -9,10 +9,11 @@ interface OpenLibraryResponse {
 interface OpenLibraryDoc {
   key: string;
   title: string;
-  author_name: string;
+  author_name?: string[];
   first_publish_year: number;
   cover_i: number;
-  number_of_pages_median: number;
+  number_of_pages_median?: number;
+  language?: string[];
   subject: string[];
 }
 
@@ -25,15 +26,18 @@ export const lookUpBook = async (query: string, limit: number = 20): Promise<Boo
   const bookData = response?.docs ?? [];
 
   const books = bookData.map<Book>(doc => {
+    const mainAuthor = doc.author_name?.at(0) || 'Anonymous';
+    const language = doc.language?.at(0) || 'unknown';
+    const description = `"${doc.title}" by ${doc.author_name} (${doc.first_publish_year})`;
     return {
       id: doc.key,
       title: doc.title,
-      author: doc.author_name,
-      description: '',
+      author: mainAuthor,
+      description: description,
       coverImage: `${doc.cover_i}`,
       publishedYear: `${doc.first_publish_year}`,
-      genre: doc.subject.join(', '),
-      pageCount: `${doc.number_of_pages_median}`,
+      pageCount: `${doc.number_of_pages_median || 'unknown'}`,
+      language: language,
     }
   });
 
