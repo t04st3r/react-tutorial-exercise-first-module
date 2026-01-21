@@ -1,0 +1,59 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.reading-list {
+  .filter-tabs {
+    margin-bottom: $spacing-lg;
+    border-bottom: 1px solid $border-light;
+
+    .tabs-container {
+      display: flex;
+      gap: $spacing-xs;
+      overflow-x: auto;
+      @include smooth-scroll;
+
+      .tab {
+        @include button-base;
+        padding: $spacing-sm $spacing-md;
+        font-size: 0.875rem;
+        font-weight: 500;
+        white-space: nowrap;
+        border-bottom: 2px solid transparent;
+        background: none;
+        border-radius: 0;
+        color: $text-secondary;
+        transition: all $transition-fast ease;
+
+        &:hover {
+          color: $text-primary;
+          border-bottom-color: $neutral-300;
+        }
+
+        &.active {
+          border-bottom-color: $primary-600;
+          color: $primary-600;
+        }
+
+        .tab-count {
+          margin-left: $spacing-sm;
+          padding: 0.125rem 0.5rem;
+          border-radius: $radius-full;
+          font-size: 0.75rem;
+          background-color: $neutral-100;
+          color: $text-secondary;
+
+          &.active {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: $primary-600;
+          }
+        }
+      }
+    }
+  }
+
+  .items-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}

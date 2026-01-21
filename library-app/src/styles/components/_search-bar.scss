@@ -1,0 +1,49 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.search-bar {
+  width: 100%;
+
+  form {
+    @include flex-between;
+    gap: $spacing-sm;
+  }
+
+  .search-input-wrapper {
+    flex: 1;
+    position: relative;
+
+    .search-icon {
+      position: absolute;
+      left: $spacing-md;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1.25rem;
+      height: 1.25rem;
+      color: $text-tertiary;
+      pointer-events: none;
+    }
+
+    input {
+      @include input-base;
+      padding-left: 2.5rem;
+    }
+  }
+
+  .search-button {
+    @include button-primary;
+    padding: $spacing-sm $spacing-lg;
+    white-space: nowrap;
+
+    .spinner {
+      animation: spin 1s linear infinite;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}

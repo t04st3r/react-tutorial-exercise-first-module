@@ -1,0 +1,135 @@
+@use '../variables' as *;
+@use '../mixins' as *;
+
+.reading-stats {
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(lg) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-card {
+      @include card;
+      @include slide-up;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-lg;
+      }
+
+      .stat-content {
+        @include flex-between;
+
+        .stat-info {
+          .stat-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: $text-secondary;
+          }
+
+          .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: $text-primary;
+            margin-top: $spacing-xs;
+          }
+        }
+
+        .stat-icon {
+          padding: $spacing-md;
+          border-radius: $radius-lg;
+          color: white;
+
+          svg {
+            width: 1.5rem;
+            height: 1.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .additional-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-top: $spacing-lg;
+
+    @include respond-to(md) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .large-stat-card {
+      @include card;
+
+      .stat-header {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+        margin-bottom: $spacing-md;
+
+        .stat-icon {
+          padding: $spacing-sm;
+          border-radius: $radius-lg;
+          color: white;
+
+          svg {
+            width: 1.25rem;
+            height: 1.25rem;
+          }
+        }
+
+        h3 {
+          font-size: 1.125rem;
+          font-weight: 600;
+          color: $text-primary;
+        }
+      }
+
+      .stat-value {
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: $text-primary;
+      }
+
+      .stat-description {
+        font-size: 0.875rem;
+        color: $text-secondary;
+        margin-top: $spacing-sm;
+      }
+
+      .progress-bar {
+        @include progress-bar($warning-500);
+        margin-top: $spacing-md;
+      }
+    }
+  }
+}
+
+// Color classes for stats
+.stat-icon-blue {
+  background-color: $primary-500;
+}
+
+.stat-icon-gray {
+  background-color: $neutral-500;
+}
+
+.stat-icon-green {
+  background-color: $success-500;
+}
+
+.stat-icon-purple {
+  background-color: $secondary-500;
+}
+
+.stat-icon-orange {
+  background-color: $warning-500;
+}
