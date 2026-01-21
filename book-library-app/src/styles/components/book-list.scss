@@ -1,23 +1,72 @@
 @use '../variables' as *;
 
 .book-list-panel {
+  padding: $spacing-md;
+
   h2 {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
+    color: $text-primary;
+    border-bottom: 2px solid $primary-color;
+    padding-bottom: $spacing-sm;
+    display: inline-block;
+  }
+
+  .book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: $spacing-lg;
+  }
+
+  .no-books {
     text-align: center;
-    color: $text-color;
-    margin-bottom: 20px;
+    font-size: $font-size-lg;
+    color: $text-secondary;
+    margin-top: $spacing-xl;
   }
 }
 
-.book-list {
+.book-list-item {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
+  flex-direction: column;
+  height: 100%;
 
-.no-books {
-  text-align: center;
-  color: $secondary-color;
-  font-style: italic;
-  width: 100%;
+  // Card styling moved here
+  background-color: $surface-color;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  padding: $spacing-md;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $box-shadow-hover;
+  }
+
+  .add-to-list-container {
+    margin-top: $spacing-md;
+    text-align: center;
+  }
+
+  .add-to-list-button {
+    background-color: $primary-color;
+    color: $surface-color;
+    border: none;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    transition: background-color 0.2s ease;
+    width: 100%;
+
+    &:hover {
+      background-color: $primary-dark;
+    }
+  }
+
+  .already-in-list {
+    color: $secondary-color;
+    font-weight: bold;
+    font-size: $font-size-sm;
+  }
 }

@@ -1,45 +1,47 @@
 @use '../variables' as *;
 
 .language-filter-panel {
-  margin-bottom: 24px;
-  text-align: center;
+  padding: $spacing-md;
+  background-color: $surface-color;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  margin-bottom: $spacing-lg;
 
   h2 {
-    color: $text-color;
-    margin-bottom: 16px;
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-md;
+    color: $text-primary;
   }
-}
 
-.language-filter-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
+  .language-filter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
 
-.language-filter-button {
-  padding: 8px 16px;
-  background-color: white;
-  color: $text-color;
-  border: 1px solid #ccc;
-  border-radius: $border-radius;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s;
+    button {
+      padding: $spacing-xs $spacing-md;
+      border: 1px solid $border-color;
+      border-radius: 20px; // Pill shape
+      background-color: transparent;
+      cursor: pointer;
+      font-size: $font-size-sm;
+      transition: all 0.2s ease;
+      color: $text-secondary;
 
-  &:hover {
-    background-color: lighten($primary-color, 40%);
-    border-color: $primary-color;
-  }
-}
+      &:hover {
+        background-color: $background-color;
+        border-color: $primary-light;
+      }
 
-.selected-language-filter-button {
-  @extend .language-filter-button;
-  background-color: $primary-color;
-  color: white;
-  border-color: $primary-color;
+      &.selected-language-filter-button {
+        background-color: $primary-color;
+        color: $surface-color;
+        border-color: $primary-color;
 
-  &:hover {
-    background-color: darken($primary-color, 10%);
+        &:hover {
+          background-color: $primary-dark;
+        }
+      }
+    }
   }
 }
