@@ -5,13 +5,15 @@ interface BookCardProps {
   book: Book;
   onAddToList: (book: Book) => void;
   isInReadingList: boolean;
+  onViewDetails?: (book: Book) => void;
 }
 
-export function BookCard({ book, onAddToList, isInReadingList }: BookCardProps) {
+export function BookCard({ book, onAddToList, isInReadingList, onViewDetails }: BookCardProps) {
   const [imageError, setImageError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAddClick = async () => {
+  const handleAddClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (isInReadingList) return;
 
     setIsLoading(true);
@@ -28,8 +30,17 @@ export function BookCard({ book, onAddToList, isInReadingList }: BookCardProps) 
     setImageError(true);
   };
 
+  const handleCardClick = () => {
+    if (onViewDetails) {
+      onViewDetails(book);
+    }
+  };
+
   return (
-    <div className="book-card bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-xl hover:border-blue-300 transition-all duration-300 transform hover:-translate-y-1">
+    <div
+      className="book-card"
+      onClick={handleCardClick}
+    >
       {/* Book Cover */}
       <div className="relative aspect-[2/3] bg-gradient-to-br from-gray-100 to-gray-200">
         <img

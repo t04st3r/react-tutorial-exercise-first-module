@@ -4,6 +4,8 @@ import { SearchBar } from './SearchBar';
 import { BookList } from './BookList';
 import { GenreFilter } from './GenreFilter';
 import { ReadingList } from './ReadingList';
+import { ReadingStats } from './ReadingStats';
+import { BookDetail } from './BookDetail';
 import type { Book } from '../types/book';
 import type { ReadingListItem } from '../types/reading_list_item';
 
@@ -18,6 +20,7 @@ export function BookSearch() {
   const [error, setError] = useState<string | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
 
   // Extract unique genres from search results
   const availableGenres = useMemo(() => {
@@ -112,6 +115,25 @@ export function BookSearch() {
           : item
       )
     );
+  };
+
+  // Handle book detail view - lifted state
+  const handleViewDetails = (book: Book) => {
+    setSelectedBook(book);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedBook(null);
+  };
+
+  // Check if book is in reading list
+  const isBookInReadingList = (bookId: string): boolean => {
+    return readingList.some((item) => item.book.id === bookId);
+  };
+
+  // Get reading list item for a book
+  const getReadingListItem = (bookId: string): ReadingListItem | undefined => {
+    return readingList.find((item) => item.book.id === bookId);
   };
 
   return (
@@ -226,6 +248,7 @@ export function BookSearch() {
                   books={filteredBooks}
                   onAddToList={addToReadingList}
                   readingList={readingList}
+                  onViewDetails={handleViewDetails}
                 />
               </div>
             )}
@@ -306,17 +329,37 @@ export function BookSearch() {
 
         {/* Reading List View */}
         {currentView === 'reading-list' && (
-          <div className="bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">My Reading List</h2>
-            <ReadingList
-              items={readingList}
-              onUpdateStatus={updateReadingStatus}
-              onUpdatePage={updateCurrentPage}
-              onRemove={removeFromReadingList}
-            />
-          </div>
+          <>
+            {/* Stats Section */}
+            <div className="mb-8">
+              <ReadingStats items={readingList} />
+            </div>
+
+            {/* Reading List */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">My Reading List</h2>
+              <ReadingList
+                items={readingList}
+                onUpdateStatus={updateReadingStatus}
+                onUpdatePage={updateCurrentPage}
+                onRemove={removeFromReadingList}
+                onViewDetails={handleViewDetails}
+              />
+            </div>
+          </>
         )}
       </main>
+
+      {/* Book Detail Modal */}
+      {selectedBook && (
+        <BookDetail
+          book={selectedBook}
+          readingListItem={getReadingListItem(selectedBook.id)}
+          onClose={handleCloseDetails}
+          onAddToList={addToReadingList}
+          isInReadingList={isBookInReadingList(selectedBook.id)}
+        />
+      )}
     </div>
   );
 }

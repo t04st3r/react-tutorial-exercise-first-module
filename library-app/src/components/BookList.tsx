@@ -6,9 +6,10 @@ interface BookListProps {
   books: Book[];
   onAddToList: (book: Book) => void;
   readingList: ReadingListItem[];
+  onViewDetails?: (book: Book) => void;
 }
 
-export function BookList({ books, onAddToList, readingList }: BookListProps) {
+export function BookList({ books, onAddToList, readingList, onViewDetails }: BookListProps) {
   // Check if a book is in the reading list
   const isBookInReadingList = (bookId: string): boolean => {
     return readingList.some((item) => item.book.id === bookId);
@@ -51,6 +52,7 @@ export function BookList({ books, onAddToList, readingList }: BookListProps) {
             book={book}
             onAddToList={onAddToList}
             isInReadingList={isBookInReadingList(book.id)}
+            onViewDetails={onViewDetails}
           />
         ))}
       </div>

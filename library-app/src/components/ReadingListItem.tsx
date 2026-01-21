@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import type { ReadingListItem } from '../types/reading_list_item';
+import type { Book } from "../types/book";
 
 interface ReadingListItemProps {
   item: ReadingListItem;
   onUpdateStatus: (bookId: string, status: 'to-read' | 'reading' | 'completed') => void;
   onUpdatePage: (bookId: string, page: number) => void;
   onRemove: (bookId: string) => void;
+  onViewDetails?: (book: Book) => void;
 }
 
-export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove }: ReadingListItemProps) {
+export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, onViewDetails }: ReadingListItemProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [pageInput, setPageInput] = useState(item.currentPage.toString());
 
@@ -21,15 +23,6 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove }
       case 'reading': return 'bg-blue-100 text-blue-700 border-blue-300';
       case 'completed': return 'bg-green-100 text-green-700 border-green-300';
       default: return 'bg-gray-100 text-gray-700 border-gray-300';
-    }
-  };
-
-  const getStatusLabel = (s: string) => {
-    switch (s) {
-      case 'to-read': return 'To Read';
-      case 'reading': return 'Reading';
-      case 'completed': return 'Completed';
-      default: return s;
     }
   };
 
@@ -73,19 +66,19 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove }
     <div className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
       <div className="flex gap-4">
         {/* Book Cover */}
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 cursor-pointer" onClick={() => onViewDetails?.(book)}>
           <img
             src={book.coverImage}
             alt={`Cover of ${book.title}`}
-            className="w-20 h-28 object-cover rounded shadow-sm"
+            className="w-20 h-28 object-cover rounded shadow-sm hover:shadow-lg transition-shadow"
           />
         </div>
 
         {/* Book Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-gray-900 line-clamp-1">
+            <div className="flex-1 min-w-0 cursor-pointer" onClick={() => onViewDetails?.(book)}>
+              <h3 className="font-semibold text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">
                 {book.title}
               </h3>
               <p className="text-sm text-gray-600 truncate">{book.author}</p>

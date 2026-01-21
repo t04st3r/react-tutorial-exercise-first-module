@@ -1,17 +1,19 @@
 import { useState, useMemo } from 'react';
 import { ReadingListItem as ReadingListItemComponent } from './ReadingListItem';
 import type { ReadingListItem } from '../types/reading_list_item';
+import type { Book } from '../types/book';
 
 interface ReadingListProps {
   items: ReadingListItem[];
   onUpdateStatus: (bookId: string, status: 'to-read' | 'reading' | 'completed') => void;
   onUpdatePage: (bookId: string, page: number) => void;
   onRemove: (bookId: string) => void;
+  onViewDetails?: (book: Book) => void;
 }
 
 type FilterStatus = 'all' | 'to-read' | 'reading' | 'completed';
 
-export function ReadingList({ items, onUpdateStatus, onUpdatePage, onRemove }: ReadingListProps) {
+export function ReadingList({ items, onUpdateStatus, onUpdatePage, onRemove, onViewDetails }: ReadingListProps) {
   const [activeFilter, setActiveFilter] = useState<FilterStatus>('all');
 
   // Filter items based on active filter
@@ -88,6 +90,7 @@ export function ReadingList({ items, onUpdateStatus, onUpdatePage, onRemove }: R
               onUpdateStatus={onUpdateStatus}
               onUpdatePage={onUpdatePage}
               onRemove={onRemove}
+              onViewDetails={onViewDetails}
             />
           ))}
         </div>
