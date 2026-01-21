@@ -1,8 +1,10 @@
 import { useState, useMemo } from 'react';
 import { searchBooks } from '../utils/bookApi';
+import { sortBooks, type SortField, type SortOrder } from '../utils/bookSort';
 import { SearchBar } from './SearchBar';
 import { BookList } from './BookList';
 import { GenreFilter } from './GenreFilter';
+import { SortControl } from './SortControl';
 import { ReadingList } from './ReadingList';
 import { ReadingStats } from './ReadingStats';
 import { BookDetail } from './BookDetail';
@@ -21,6 +23,8 @@ export function BookSearch() {
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [sortField, setSortField] = useState<SortField>('title');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
 
   const availableGenres = useMemo(() => {
     const genreSet = new Set<string>();
@@ -38,6 +42,10 @@ export function BookSearch() {
     }
     return books.filter((book) => book.genre === selectedGenre);
   }, [books, selectedGenre]);
+
+  const sortedBooks = useMemo(() => {
+    return sortBooks(filteredBooks, sortField, sortOrder);
+  }, [filteredBooks, sortField, sortOrder]);
 
   const handleSearchSubmit = async () => {
     if (!query.trim()) {
@@ -74,6 +82,11 @@ export function BookSearch() {
 
   const handleGenreSelect = (genre: string | null) => {
     setSelectedGenre(genre);
+  };
+
+  const handleSortChange = (field: SortField, order: SortOrder) => {
+    setSortField(field);
+    setSortOrder(order);
   };
 
   const addToReadingList = (book: Book) => {
@@ -209,12 +222,19 @@ export function BookSearch() {
               <div className="section-card">
                 <div className="results-header">
                   <h2>{selectedGenre ? `${selectedGenre} Books` : 'Search Results'}</h2>
-                  <p className="results-count">
-                    Showing {filteredBooks.length} of {books.length} books
-                  </p>
+                  <div className="results-info">
+                    <p className="results-count">
+                      Showing {sortedBooks.length} of {books.length} books
+                    </p>
+                    <SortControl
+                      sortField={sortField}
+                      sortOrder={sortOrder}
+                      onSortChange={handleSortChange}
+                    />
+                  </div>
                 </div>
                 <BookList
-                  books={filteredBooks}
+                  books={sortedBooks}
                   onAddToList={addToReadingList}
                   readingList={readingList}
                   onViewDetails={handleViewDetails}
@@ -233,9 +253,9 @@ export function BookSearch() {
                   <h3>Start Your Book Journey</h3>
                   <p>Search for books by title, author, or subject to discover your next favorite read.</p>
                   <div className="suggestion-buttons">
-                    <button onClick={() => { setQuery('Harry Potter'); }}>Try "Harry Potter"</button>
-                    <button onClick={() => { setQuery('Science Fiction'); }}>Try "Science Fiction"</button>
-                    <button onClick={() => { setQuery('Jane Austen'); }}>Try "Jane Austen"</button>
+                    <button onClick={() => { setQuery('React programming guide'); }}>Try "React Programming Guide"</button>
+                    <button onClick={() => { setQuery('Roderick Beaton'); }}>Try "Roderick Beaton"</button>
+                    <button onClick={() => { setQuery('Eric Nylund'); }}>Try "Eric Nylund"</button>
                   </div>
                 </div>
               </div>

@@ -5,24 +5,16 @@ const OPEN_LIBRARY_SEARCH_URL = 'https://openlibrary.org/search.json';
 const COVER_IMAGE_BASE_URL = 'https://covers.openlibrary.org/b/id';
 const DEFAULT_COVER = '/src/assets/placeholder-book-cover.svg';
 
-/**
- * Generates a cover image URL from Open Library cover ID
- */
 export function getCoverImageUrl(coverId: number | undefined): string {
   if (!coverId) return DEFAULT_COVER;
   return `${COVER_IMAGE_BASE_URL}/${coverId}-M.jpg`;
 }
 
-/**
- * Extract best available description from Open Library doc
- */
 function extractDescription(doc: OpenLibraryDoc): string {
-  // Try first sentence
   if (doc.first_sentence && doc.first_sentence.length > 0) {
     return doc.first_sentence[0];
   }
 
-  // Fallback to a generic description based on available data
   const parts: string[] = [];
 
   if (doc.author_name && doc.author_name.length > 0) {
@@ -41,25 +33,17 @@ function extractDescription(doc: OpenLibraryDoc): string {
   return parts.length > 0 ? parts.join(', ') + '.' : 'No description available.';
 }
 
-/**
- * Extract best available page count from Open Library doc
- */
 function extractPageCount(doc: OpenLibraryDoc): number {
-  // Try median page count first
   if (doc.number_of_pages_median && doc.number_of_pages_median > 0) {
     return doc.number_of_pages_median;
   }
 
-  // Try the editions page count array
   if (doc.number_of_pages && Array.isArray(doc.number_of_pages) && doc.number_of_pages.length > 0) {
-    // Get the most common page count or first one
     return doc.number_of_pages[0];
   }
 
-  // Estimate based on genre if we have it
   if (doc.subject && doc.subject.length > 0) {
     const subject = doc.subject[0].toLowerCase();
-    // Rough estimates by genre
     if (subject.includes('novel') || subject.includes('fiction')) {
       return 350;
     } else if (subject.includes('poetry')) {
@@ -69,22 +53,17 @@ function extractPageCount(doc: OpenLibraryDoc): number {
     }
   }
 
-  // Default estimate
   return 250;
 }
 
-/**
- * Extract best available genre from Open Library doc
- */
 function extractGenre(doc: OpenLibraryDoc): string {
   if (doc.subject && doc.subject.length > 0) {
-    // Filter out very generic subjects and pick the most specific one
     const goodSubjects = doc.subject.filter(s => {
       const lower = s.toLowerCase();
       return !lower.includes('accessible book') &&
-             !lower.includes('in library') &&
-             !lower.includes('protected daisy') &&
-             s.length < 50; // Avoid overly long descriptive subjects
+          !lower.includes('in library') &&
+          !lower.includes('protected daisy') &&
+          s.length < 50;
     });
 
     if (goodSubjects.length > 0) {
@@ -92,21 +71,61 @@ function extractGenre(doc: OpenLibraryDoc): string {
     }
   }
 
-  // Try to infer from title or other fields
   if (doc.title) {
     const title = doc.title.toLowerCase();
-    if (title.includes('history')) return 'History';
-    if (title.includes('science')) return 'Science';
-    if (title.includes('cook')) return 'Cooking';
-    if (title.includes('travel')) return 'Travel';
-  }
 
+    const rules = [
+      {keywords: ['science fiction', 'sci-fi'], genre: 'Science Fiction'},
+      {keywords: ['self-help', 'self help'], genre: 'Self-Help'},
+      {keywords: ['how to'], genre: 'How-To'},
+      {keywords: ['young adult'], genre: 'Young Adult'},
+      {keywords: ['history'], genre: 'History'},
+      {keywords: ['philosophy'], genre: 'Philosophy'},
+      {keywords: ['psychology'], genre: 'Psychology'},
+      {keywords: ['economics'], genre: 'Economics'},
+      {keywords: ['politics'], genre: 'Politics'},
+      {keywords: ['sociology'], genre: 'Sociology'},
+      {keywords: ['biography'], genre: 'Biography'},
+      {keywords: ['memoir'], genre: 'Memoir'},
+      {keywords: ['essays', 'essay'], genre: 'Essays'},
+      {keywords: ['guide'], genre: 'Guide'},
+      {keywords: ['handbook'], genre: 'Handbook'},
+      {keywords: ['manual'], genre: 'Manual'},
+      {keywords: ['programming', 'coding'], genre: 'Programming'},
+      {keywords: ['software'], genre: 'Software'},
+      {keywords: ['computer'], genre: 'Computers'},
+      {keywords: ['startup'], genre: 'Entrepreneurship'},
+      {keywords: ['business'], genre: 'Business'},
+      {keywords: ['management'], genre: 'Management'},
+      {keywords: ['marketing'], genre: 'Marketing'},
+      {keywords: ['productivity'], genre: 'Productivity'},
+      {keywords: ['photography'], genre: 'Photography'},
+      {keywords: ['design'], genre: 'Design'},
+      {keywords: ['music'], genre: 'Music'},
+      {keywords: ['fashion'], genre: 'Fashion'},
+      {keywords: ['craft'], genre: 'Crafts'},
+      {keywords: ['art'], genre: 'Art'},
+      {keywords: ['nutrition'], genre: 'Nutrition'},
+      {keywords: ['diet'], genre: 'Diet'},
+      {keywords: ['fitness'], genre: 'Fitness'},
+      {keywords: ['health'], genre: 'Health'},
+      {keywords: ['gardening'], genre: 'Gardening'},
+      {keywords: ['nature'], genre: 'Nature'},
+      {keywords: ['cook', 'cooking'], genre: 'Cooking'},
+      {keywords: ['travel'], genre: 'Travel'},
+      {keywords: ['science'], genre: 'Science'},
+    ];
+
+    for (const {keywords, genre} of rules) {
+      if (keywords.some(k => title.includes(k))) {
+        return genre;
+      }
+    }
+  }
   return 'General';
 }
 
-/**
- * Transforms an Open Library API document to our Book interface
- */
+
 export function transformOpenLibraryDocToBook(doc: OpenLibraryDoc): Book {
   return {
     id: doc.key || `book-${Date.now()}-${Math.random()}`,
@@ -120,9 +139,7 @@ export function transformOpenLibraryDocToBook(doc: OpenLibraryDoc): Book {
   };
 }
 
-/**
- * Searches for books using the Open Library API
- */
+
 export async function searchBooks(query: string, limit: number = 20): Promise<Book[]> {
   if (!query.trim()) {
     return [];
@@ -145,9 +162,7 @@ export async function searchBooks(query: string, limit: number = 20): Promise<Bo
   }
 }
 
-/**
- * Searches for books by a specific field (title, author, subject, etc.)
- */
+ // * Searches for books by a specific field (title, author, subject, etc.)  - Not yet available in UI
 export async function searchBooksByField(
   field: 'title' | 'author' | 'subject',
   query: string,

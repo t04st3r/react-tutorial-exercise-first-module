@@ -267,13 +267,20 @@ body {
 
 // Results header
 .results-header {
-  @include flex-between;
   margin-bottom: $spacing-md;
 
   h2 {
     font-size: 1.125rem;
     font-weight: 600;
     color: $text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  .results-info {
+    @include flex-between;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+    align-items: center;
   }
 
   .results-count {
