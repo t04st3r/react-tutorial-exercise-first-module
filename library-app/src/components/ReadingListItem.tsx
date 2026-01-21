@@ -28,6 +28,18 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
 
   const handleStatusChange = (newStatus: 'to-read' | 'reading' | 'completed') => {
     onUpdateStatus(book.id, newStatus);
+
+    // If changing to completed, set current page to total pages
+    if (newStatus === 'completed' && book.pageCount > 0) {
+      onUpdatePage(book.id, book.pageCount);
+      setPageInput(book.pageCount.toString());
+    }
+
+    // If changing to to-read, reset page to 0
+    if (newStatus === 'to-read') {
+      onUpdatePage(book.id, 0);
+      setPageInput('0');
+    }
   };
 
   const handleIncrementPage = () => {
@@ -110,7 +122,7 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
             </button>
           </div>
 
-          {book.pageCount > 0 && (
+          {book.pageCount > 0 && status !== 'to-read' && (
             <div className="progress-section">
               <div className="progress-header">
                 <span>Progress</span>
@@ -124,42 +136,53 @@ export function ReadingListItem({ item, onUpdateStatus, onUpdatePage, onRemove, 
                 />
               </div>
 
-              <div className="page-controls">
-                <button
-                  onClick={handleDecrementPage}
-                  disabled={currentPage === 0}
-                  className="page-button"
-                  aria-label="Decrease page"
-                >
-                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
+              {status === 'reading' && (
+                <div className="page-controls">
+                  <button
+                    onClick={handleDecrementPage}
+                    disabled={currentPage === 0}
+                    className="page-button"
+                    aria-label="Decrease page"
+                  >
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </button>
 
-                <div className="page-input-group">
-                  <span className="page-label">Page</span>
-                  <input
-                    type="number"
-                    value={pageInput}
-                    onChange={handlePageInputChange}
-                    onBlur={handlePageInputBlur}
-                    min="0"
-                    max={book.pageCount}
-                  />
-                  <span className="page-label">of {book.pageCount}</span>
+                  <div className="page-input-group">
+                    <span className="page-label">Page</span>
+                    <input
+                      type="number"
+                      value={pageInput}
+                      onChange={handlePageInputChange}
+                      onBlur={handlePageInputBlur}
+                      min="0"
+                      max={book.pageCount}
+                    />
+                    <span className="page-label">of {book.pageCount}</span>
+                  </div>
+
+                  <button
+                    onClick={handleIncrementPage}
+                    disabled={currentPage === book.pageCount}
+                    className="page-button"
+                    aria-label="Increase page"
+                  >
+                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
                 </div>
+              )}
 
-                <button
-                  onClick={handleIncrementPage}
-                  disabled={currentPage === book.pageCount}
-                  className="page-button"
-                  aria-label="Increase page"
-                >
-                  <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              {status === 'completed' && (
+                <div className="completed-message">
+                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                </button>
-              </div>
+                  <span>You've finished this book! ({book.pageCount} pages)</span>
+                </div>
+              )}
             </div>
           )}
 

@@ -397,6 +397,23 @@
         }
       }
 
+      .completed-message {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        padding: $spacing-sm $spacing-md;
+        background-color: rgba(16, 185, 129, 0.1);
+        border-radius: $radius-md;
+        color: $success-600;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-top: $spacing-sm;
+
+        svg {
+          flex-shrink: 0;
+        }
+      }
+
       .expand-button {
         margin-top: $spacing-sm;
         font-size: 0.75rem;
