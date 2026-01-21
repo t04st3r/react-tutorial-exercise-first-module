@@ -4,7 +4,7 @@ import BookCard from "./BookCard.tsx";
 type BookListProps = {
   books: Book[];
   onAddToList: boolean;
-  readingList: [];
+  readingList: Book[];
 };
 
 export default function BookList({books, onAddToList, readingList }: BookListProps) {
@@ -15,6 +15,8 @@ export default function BookList({books, onAddToList, readingList }: BookListPro
                 <BookCard
                     key={book.id}
                     book={book}
+                    onAddToList={onAddToList}
+                    // isInReadingList={readingList} TODO
                 />
             ))}
         </div>

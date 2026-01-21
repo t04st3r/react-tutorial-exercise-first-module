@@ -3,6 +3,7 @@ import './App.css'
 import type {Book} from "./types/book.ts";
 import BookList from "./components/BookList.tsx";
 import InputField from "./components/SearchBar.tsx";
+import ReadingList from "./components/ReadingList.tsx";
 
 function App() {
     const [books, setBooks] = useState<Book[] | null>(null);
@@ -35,11 +36,7 @@ function App() {
 
     return (
         <>
-            <InputField
-                value={userInput}
-                onChange={setUserInput}
-                onSubmit={handleFetch}
-            />
+            <ReadingList items={} onUpdateItem={}/>
             {books ? <BookList
                 books={books}
                 onAddToList={false}

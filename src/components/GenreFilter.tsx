@@ -1,13 +1,12 @@
-import type {Book} from "../types/book.ts";
 
 
-type BookProps = {
-  book: Book;
-  onAddToList: boolean;
-  isInReadingList?: boolean;
+type GenreFilterProps = {
+  genres: string[];
+  selectedGenre: string;
+  onSelectGenre: () => void;
 };
 
-export default function BookCard({book, onAddToList, isInReadingList}: BookProps) {
+export default function GenreFilter({genres, selectedGenre, onSelectGenre}: GenreFilterProps) {
 
     return (
         <div className='card'>
