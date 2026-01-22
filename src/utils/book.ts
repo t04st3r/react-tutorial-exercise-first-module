@@ -1,6 +1,8 @@
 import type { Book } from "../types/book";
 import { get } from "./request";
 
+export const ALL_LANGUAGES = 'all';
+
 interface OpenLibraryResponse {
   numFound: number;
   docs: OpenLibraryDoc[];
@@ -27,7 +29,7 @@ export const lookUpBook = async (query: string, limit: number = 20): Promise<Boo
 
   const books = bookData.map<Book>(doc => {
     const mainAuthor = doc.author_name?.at(0) || 'Anonymous';
-    const language = doc.language?.at(0) || 'unknown';
+    const language = doc.language?.at(0) || '???';
     const description = `"${doc.title}" by ${doc.author_name} (${doc.first_publish_year})`;
     return {
       id: doc.key,
