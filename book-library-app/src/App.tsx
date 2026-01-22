@@ -7,6 +7,7 @@ import { ReadingList } from './components/reading-list'
 
 import type { iBook } from "./types/book.ts";
 import { Book } from "./types/book.ts";
+import {ReadingStats} from "./components/reading-stats.tsx";
 
 
 const bookLibrarySearchApi = import.meta.env.VITE_BOOK_LIBRARY_SEARCH_API_URL;
@@ -106,7 +107,7 @@ function App() {
                     className={`tab-button ${activeTab === 'reading-list' ? 'active' : ''}`}
                     onClick={() => setActiveTab('reading-list')}
                 >
-                    Reading List ({readingList.length})
+                    Reading List
                 </button>
             </div>
 
@@ -124,6 +125,7 @@ function App() {
                 {activeTab === 'reading-list' && (
                     <div className="book-reading-list">
                         <ReadingList readingList={readingList} onBookStatusUpdate={updateBookStatus} onRemoveFromList={removeFromReadingList} />
+                        <ReadingStats readingList={readingList} />
                     </div>
                 )}
             </div>
