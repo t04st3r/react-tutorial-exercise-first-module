@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { SearchBar } from './components/search-bar';
 import { LanguageFilter } from './components/language-filter';
 import { BookList } from './components/book-list';
+import { ReadingList } from './components/reading-list'
 
 import type { iBook } from "./types/book.ts";
 import { Book } from "./types/book.ts";
@@ -69,18 +70,40 @@ function App() {
         });
     }
 
-    function onAddToReadingList(book: iBook) {
+    function updateBookStatus(book: iBook) {
+        setReadingList(
+            readingList.map((readingBook: iBook) =>
+                readingBook.id === book.id ? book : readingBook
+            )
+        )
+    }
+
+    function addToReadingList(book: iBook) {
         setReadingList([...readingList, book]);
     }
 
-    return (
+    function removeFromReadingList(book: iBook) {
+        setReadingList(
+            readingList.filter((readingBook: iBook) =>
+                readingBook.id === book.id
+            )
+        )
+    }
+
+return (
         <div className="app">
-            <h1>Book Library App</h1>
-            <div className="tools-panel">
-                <SearchBar value={searchCriteria} onChange={setSearchCriteria} onSubmit={fetchBooks} />
-                <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectLanguage={filterBooksByLanguage} />
+            <div className="book-library">
+                <h1>Book Library</h1>
+                <div className="book-library-tools-panel">
+                    <SearchBar value={searchCriteria} onChange={setSearchCriteria} onSubmit={fetchBooks} />
+                    <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectLanguage={filterBooksByLanguage} />
+                </div>
+                <BookList books={filteredBooks} readingList={readingList} onAddToList={addToReadingList}/>
             </div>
-            <BookList books={filteredBooks} readingList={readingList} onAddToList={onAddToReadingList}/>
+            <div className="book-reading-list">
+                <h1>Reading List</h1>
+                <ReadingList readingList={readingList} onBookStatusUpdate={updateBookStatus} onRemoveFromList={removeFromReadingList} />
+            </div>
         </div>
     );
 }

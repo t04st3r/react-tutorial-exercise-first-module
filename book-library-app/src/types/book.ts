@@ -10,8 +10,13 @@ export interface iBook {
     publishedYear: number;
     language: string;
     pageCount: number;
+    readingStatus: 'To Read' | 'Reading' | 'Completed'  // TODO: move to an enum
+    readingPageNumber: number;
 
     getCoverImageUrl(): string;
+    setReadingStatus(newStatus: 'To Read' | 'Reading' | 'Completed'): void;
+    readingPageNumberIncrease(): void;
+    readingPageNumberDecrease(): void;
 }
 
 
@@ -24,6 +29,8 @@ export class Book implements iBook {
     publishedYear: number;
     language: string;
     pageCount: number;
+    readingStatus: 'To Read' | 'Reading' | 'Completed';
+    readingPageNumber: number;
 
     constructor(id: string, title: string, author: string, description: string, coverImage: string, publishedYear: number, language: string, pageCount: number) {
         this.id = id;
@@ -34,10 +41,24 @@ export class Book implements iBook {
         this.publishedYear = publishedYear;
         this.language = language;
         this.pageCount = pageCount;
+        this.readingStatus = 'To Read';
+        this.readingPageNumber = 0;
     }
 
     getCoverImageUrl(): string {
         return `${bookLibraryImageApi}/b/id/${this.coverImage}-M.jpg`;
     }
-    
+
+    setReadingStatus(newStatus: 'To Read' | 'Reading' | 'Completed'): void {
+        this.readingStatus = newStatus;
+    }
+
+    readingPageNumberIncrease(): void {
+        this.readingPageNumber++;
+    }
+
+    readingPageNumberDecrease(): void {
+        this.readingPageNumber--;
+    }
+
 }
