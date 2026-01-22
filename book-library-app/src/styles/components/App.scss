@@ -53,4 +53,15 @@
       grid-template-columns: 1fr 1fr;
     }
   }
+
+  .book-reading-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+
+    @media (min-width: 992px) {
+      grid-template-columns: 3fr 1fr;
+      align-items: start;
+    }
+  }
 }

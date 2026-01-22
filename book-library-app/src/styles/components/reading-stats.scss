@@ -1,0 +1,52 @@
+@use '../variables' as *;
+
+.reading-stats-panel {
+  background-color: $surface-color;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+  padding: $spacing-lg;
+  // margin-top removed to rely on grid gap
+
+  h2 {
+    font-size: $font-size-xl;
+    margin-bottom: $spacing-md;
+    color: $text-primary;
+    border-bottom: 2px solid $secondary-color;
+    padding-bottom: $spacing-sm;
+    display: inline-block;
+  }
+
+  .reading-stats-book-total,
+  .reading-stats-page-total,
+  .reading-stats-page-average-progress {
+    margin-bottom: $spacing-sm;
+    font-size: $font-size-base;
+    color: $text-secondary;
+
+    p {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+    }
+  }
+
+  .reading-stats-count-status {
+    margin: $spacing-md 0;
+    padding: $spacing-md;
+    background-color: $background-color;
+    border-radius: $border-radius;
+
+    p {
+      margin-bottom: $spacing-xs;
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      display: flex;
+      justify-content: space-between;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
