@@ -20,6 +20,7 @@ function App() {
     const [languages, setLanguages] = useState<Set<string>>(new Set());
     const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
     const [readingList, setReadingList] = useState<Array<iBook>>([]);
+    const [activeTab, setActiveTab] = useState<'library' | 'reading-list'>('library');
 
     async function fetchBooks() {
         try {
@@ -85,24 +86,46 @@ function App() {
     function removeFromReadingList(book: iBook) {
         setReadingList(
             readingList.filter((readingBook: iBook) =>
-                readingBook.id === book.id
+                readingBook.id !== book.id
             )
         )
     }
 
-return (
+    return (
         <div className="app">
-            <div className="book-library">
-                <h1>Book Library</h1>
-                <div className="book-library-tools-panel">
-                    <SearchBar value={searchCriteria} onChange={setSearchCriteria} onSubmit={fetchBooks} />
-                    <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectLanguage={filterBooksByLanguage} />
-                </div>
-                <BookList books={filteredBooks} readingList={readingList} onAddToList={addToReadingList}/>
+            <h1>Book Library App</h1>
+            
+            <div className="tab-navigation">
+                <button 
+                    className={`tab-button ${activeTab === 'library' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('library')}
+                >
+                    Book Library
+                </button>
+                <button 
+                    className={`tab-button ${activeTab === 'reading-list' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('reading-list')}
+                >
+                    Reading List ({readingList.length})
+                </button>
             </div>
-            <div className="book-reading-list">
-                <h1>Reading List</h1>
-                <ReadingList readingList={readingList} onBookStatusUpdate={updateBookStatus} onRemoveFromList={removeFromReadingList} />
+
+            <div className="tab-content">
+                {activeTab === 'library' && (
+                    <div className="book-library">
+                        <div className="tools-panel">
+                            <SearchBar value={searchCriteria} onChange={setSearchCriteria} onSubmit={fetchBooks} />
+                            <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectLanguage={filterBooksByLanguage} />
+                        </div>
+                        <BookList books={filteredBooks} readingList={readingList} onAddToList={addToReadingList}/>
+                    </div>
+                )}
+
+                {activeTab === 'reading-list' && (
+                    <div className="book-reading-list">
+                        <ReadingList readingList={readingList} onBookStatusUpdate={updateBookStatus} onRemoveFromList={removeFromReadingList} />
+                    </div>
+                )}
             </div>
         </div>
     );

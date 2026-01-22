@@ -60,19 +60,21 @@ export function ReadingListItem ({book, onBookStatusUpdate, onRemoveFromList}: R
                             onBookStatusUpdate(book);
                         }
                     }
-                    className={book.readingPageNumber <= 0 ? "page-number-decrease-button-disabled" : "page-number-decrease-button"}>
+                    disabled={book.readingPageNumber <= 0 || book.readingStatus !== 'Reading'}
+                    className={book.readingPageNumber <= 0 || book.readingStatus !== 'Reading' ? "page-number-decrease-button-disabled" : "page-number-decrease-button"}>
                     -
                 </button>
                 <p className="reading-current-page">{book.readingPageNumber}</p>
                 <button
                     onClick={
                         () => {
-                            book.readingPageNumberDecrease();
+                            book.readingPageNumberIncrease();
                             onBookStatusUpdate(book);
                         }
                     }
-                    className={book.readingPageNumber >= book.pageCount ? "page-number-increase-button-disabled" : "page-number-increase-button"}>
-                    -
+                    disabled={book.readingPageNumber >= book.pageCount || book.readingStatus !== 'Reading'}
+                    className={book.readingPageNumber >= book.pageCount || book.readingStatus !== 'Reading' ? "page-number-increase-button-disabled" : "page-number-increase-button"}>
+                    +
                 </button>
             </div>
             <div className="remove-from-list-container">

@@ -1,43 +1,109 @@
-.reading-list {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  margin: 16px;
+@use '../variables' as *;
 
-  h2 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
+.book-list-item {
+  // Inherits .book-list-item styles from book-list.scss
+  // Additional styles for reading list specific elements
+
+  .reading-status-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: $spacing-md;
+    gap: $spacing-xs;
+    padding-top: $spacing-md;
+    border-top: 1px solid $border-color;
+
+    button {
+      flex: 1;
+      padding: $spacing-xs;
+      font-size: $font-size-sm;
+      border-radius: $border-radius;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background-color: transparent;
+      color: $text-secondary;
+
+      &:hover {
+        background-color: $background-color;
+      }
+
+      &.to-read-button-disabled,
+      &.reading-button-disabled,
+      &.completed-button-disabled {
+        cursor: default;
+        font-weight: bold;
+        color: $surface-color;
+      }
+
+      &.to-read-button-disabled {
+        background-color: $secondary-color;
+      }
+
+      &.reading-button-disabled {
+        background-color: $primary-color;
+      }
+
+      &.completed-button-disabled {
+        background-color: $secondary-color; // Or another color for completed
+      }
+    }
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
+  .page-status-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: $spacing-md;
+    gap: $spacing-md;
 
-    li {
+    button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid $border-color;
+      background-color: $surface-color;
+      cursor: pointer;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #eee;
+      justify-content: center;
+      transition: background-color 0.2s ease;
 
-      &:last-child {
-        border-bottom: none;
+      &:hover:not(:disabled) {
+        background-color: $background-color;
       }
 
-      button {
-        background-color: #e74c3c;
-        color: #fff;
-        border: none;
-        padding: 4px 8px;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: darken(#e74c3c, 10%);
-        }
+      &.page-number-decrease-button-disabled,
+      &.page-number-increase-button-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
+    }
+
+    .reading-current-page {
+      font-weight: bold;
+      font-size: $font-size-lg;
+    }
+  }
+
+  .remove-from-list-container {
+    margin-top: $spacing-md;
+    text-align: center;
+  }
+
+  .remove-from-list-button {
+    background-color: transparent;
+    color: $error-color;
+    border: 1px solid $error-color;
+    padding: $spacing-sm $spacing-md;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    transition: all 0.2s ease;
+    width: 100%;
+
+    &:hover {
+      background-color: $error-color;
+      color: $surface-color;
     }
   }
 }

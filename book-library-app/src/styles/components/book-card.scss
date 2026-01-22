@@ -1,13 +1,13 @@
 @use '../variables' as *;
 
 .book-card {
-  // Removed container styling (bg, shadow, padding) as it's now handled by the parent .book-list-item
+  // Removed container styles (bg, shadow, etc.) to let parent handle it
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  flex-grow: 1;
   width: 100%;
+  flex-grow: 1;
 
   .book-cover {
     width: 120px;
