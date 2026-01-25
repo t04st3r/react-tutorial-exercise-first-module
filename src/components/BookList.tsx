@@ -3,22 +3,27 @@ import BookCard from "./BookCard.tsx";
 
 type BookListProps = {
   books: Book[];
-  onAddToList: boolean;
   readingList: Book[];
+  onAddToList: () => void;
+  onRemoveFromList: () => void;
 };
 
-export default function BookList({books, onAddToList, readingList }: BookListProps) {
+export default function BookList({books, readingList, onAddToList, onRemoveFromList }: BookListProps) {
 
     return (
         <div className="book-list">
-            {books.map((book) => (
+            {books ? books.map((book) => (
                 <BookCard
                     key={book.id}
                     book={book}
+                    isInReadingList={readingList.some(
+                                    (readingBook) => readingBook.id === book.id
+                    )}
                     onAddToList={onAddToList}
-                    // isInReadingList={readingList} TODO
+                    onRemoveFromList={onRemoveFromList}
                 />
-            ))}
+            )) : <p> No Books Found</p>
+            }
         </div>
     )
 }

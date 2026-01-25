@@ -1,7 +1,7 @@
 interface InputFieldProps {
   value: string;
   onChange: (value: string) => void;
-  onSubmit?: () => void;
+  onSubmit: () => void;
 }
 
 function InputField({ value, onChange, onSubmit }: InputFieldProps) {

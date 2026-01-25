@@ -8,18 +8,7 @@ import ReadingList from "./components/ReadingList.tsx";
 function App() {
     const [books, setBooks] = useState<Book[] | null>(null);
     const [userInput, setUserInput] = useState<string>('');
-
-    // useEffect(() => {
-    //   fetch(`https://openlibrary.org/search.json?q=${userInput}&limit=10`)
-    //      .then((response) => response.json())
-    //      .then((data) => {
-    //         // console.log(data);
-    //         setBooks(data.docs);
-    //      })
-    //      .catch((err) => {
-    //         console.log(err.message);
-    //      });
-    // }, [userInput]);
+    const [readingList, setReadingList] = useState<Book[] | null>(null);
 
 
     async function handleFetch() {
@@ -36,7 +25,7 @@ function App() {
 
     return (
         <>
-            <ReadingList items={} onUpdateItem={}/>
+            <ReadingList items={readingList} onUpdateItem={}/>
             {books ? <BookList
                 books={books}
                 onAddToList={false}

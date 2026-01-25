@@ -1,24 +1,17 @@
+import type {Book} from "../types/book.ts";
+
 interface ReadingListProps {
-  items: string;
+  items: Book[];
   onUpdateItem: (value: string) => void;
   onRemoveItem?: () => void;
 }
 
-function ReadingList({ items, onUpdateItem, onRemoveItem }: ReadingListProps) {
+export default function ReadingList({ items, onUpdateItem, onRemoveItem }: ReadingListProps) {
   return (
-    <div className="input-group">
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder="Book title"
-        className="url-input"
-      />
-      <button onClick={onSubmit} className="fetch-button">
-        Search Books
-      </button>
+    <div className="reading-list">
+      <h1>My reading list: {items.map((book) => (
+                <p key={book.id}>Title: <i>{book.title}</i></p>))}
+      </h1>
     </div>
   );
 }
-
-export default ReadingList;

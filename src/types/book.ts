@@ -12,7 +12,7 @@ export interface Book {
   cover_i: number;
 }
 
-interface ReadingListItem {
+export interface ReadingListItem {
   book: Book;
   status: 'to-read' | 'reading' | 'completed';
   currentPage: number;
