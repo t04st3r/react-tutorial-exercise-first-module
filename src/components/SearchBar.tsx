@@ -5,7 +5,7 @@ interface Props {
 }
 export const SearchBar = ({value, onChange, onSubmit}: Props) => {
     return (
-        <div className="book-card">
+        <div className="searchbar">
             <input
                 value={value}
                 onChange={(e) => {onChange(e.target.value)}}

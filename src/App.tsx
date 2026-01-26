@@ -63,31 +63,35 @@ function App() {
   return (
       <div>
           <div className="menu-buttons">
-              <button onClick={() => setSelectedPage('search')}>Search</button>
-              <button onClick={() => setSelectedPage('readlist')}>Your Readlist</button>
-              <button onClick={() => setSelectedPage('stats')}>Your Read stats</button>
+              <button className={`${selectedPage == "search" ? "selected" : ""}`}
+                      onClick={() => setSelectedPage('search')}>Search</button>
+              <button className={`${selectedPage == "readlist" ? "selected" : ""}`}
+                      onClick={() => setSelectedPage('readlist')}>Your Readlist</button>
+              <button className={`${selectedPage == "stats" ? "selected" : ""}`}
+                      onClick={() => setSelectedPage('stats')}>Your Read stats</button>
           </div>
           {selectedPage === 'search' &&
-              <>
+              <div className="search-container">
                   <SearchBar
                       value={SearchBarValue}
                       onChange={(new_value) => setSearchBarValue(new_value)}
                       onSubmit={async () => {
                           await submitSearch(SearchBarValue)
                       }}/>
-                  <LanguageFilter languages={languages} selectedLanguage={selectedLanguage}
-                                  onSelectedLanguage={selectLanguage}/>
-                  <BookList
-                      books={books.filter((book) => {
-                          if (selectedLanguage == null)
-                              return true
-                          return book.language === selectedLanguage;
-                      })}
-                      onAddToList={addToReadList}
-                      readingList={readingList}
-                      setSelectedBook={setSelectedBook}
-                  />
-              </>
+                  <div className="search-body">
+                      <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectedLanguage={selectLanguage}/>
+                      <BookList
+                          books={books.filter((book) => {
+                              if (selectedLanguage == null)
+                                  return true
+                              return book.language === selectedLanguage;
+                          })}
+                          onAddToList={addToReadList}
+                          readingList={readingList}
+                          setSelectedBook={setSelectedBook}
+                      />
+                  </div>
+              </div>
           }
           {selectedPage == 'readlist' &&
               <ReadingList items={readingList}

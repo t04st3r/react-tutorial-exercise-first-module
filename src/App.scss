@@ -7,7 +7,50 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  width: 100%;
 }
 .selected-status {
   background-color: #b8b8b8;
+}
+.menu-buttons {
+  display: flex;
+  gap: 1rem;
+  button {
+    flex: 1;
+  }
+  .selected {
+    background-color: #555555;
+  }
+  margin-bottom: 1rem;
+}
+.search-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+
+  .search-body {
+    display: flex;
+    flex-direction: row;
+    .language-filter {
+      position: absolute;
+      left: 0;
+      button {
+        padding: 5px;
+        margin: 5px;
+      }
+    }
+  }
+}
+.book-card {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #b8b8b8;
+  border-radius: 1rem;
+  margin: 1rem;
+  button {
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+  }
 }
