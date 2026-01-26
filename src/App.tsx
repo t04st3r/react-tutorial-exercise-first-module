@@ -61,7 +61,7 @@ function App() {
       setReadingList(readingListFiltered)
   }
   return (
-      <div>
+      <div className="main-container">
           <div className="menu-buttons">
               <button className={`${selectedPage == "search" ? "selected" : ""}`}
                       onClick={() => setSelectedPage('search')}>Search</button>
@@ -78,7 +78,7 @@ function App() {
                       onSubmit={async () => {
                           await submitSearch(SearchBarValue)
                       }}/>
-                  <div className="search-body">
+                  <div className="results">
                       <LanguageFilter languages={languages} selectedLanguage={selectedLanguage} onSelectedLanguage={selectLanguage}/>
                       <BookList
                           books={books.filter((book) => {
