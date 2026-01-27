@@ -1,16 +1,16 @@
 import type {Book} from "../types/book.ts";
 import {IconButton} from "@mui/material";
-import {BookmarkAdd, BookmarkAdded} from "@mui/icons-material";
+import {BookmarkAdded} from "@mui/icons-material";
 
 
 type BookProps = {
   book: Book;
   isInReadingList: boolean;
   onAddToList: () => void;
-  onRemoveFromList: () => void;
+  // onRemoveFromList: () => void;
 };
 
-export default function BookCard({book, isInReadingList, onAddToList, onRemoveFromList}: BookProps) {
+export default function BookCard({book, isInReadingList, onAddToList}: BookProps) {
 
     return (
         <div className='card'>
@@ -27,11 +27,7 @@ export default function BookCard({book, isInReadingList, onAddToList, onRemoveFr
 
             { isInReadingList ? <IconButton aria-label="already-added" size="large" onClick={onAddToList}>
                     <BookmarkAdded />
-                </IconButton> :
-
-                <IconButton aria-label="already-added" size="large" onClick={onRemoveFromList}>
-                    <BookmarkAdd />
-                </IconButton>
+                </IconButton> : <p>Already in reading list</p>
             }
 
         </div>

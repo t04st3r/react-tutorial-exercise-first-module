@@ -1,17 +1,27 @@
-import type {Book} from "../types/book.ts";
+import type {Book, ReadingListItem} from "../types/book.ts";
+import BookCard from "./BookCard.tsx";
+import {useState} from "react";
 
 interface ReadingListProps {
-  items: Book[];
-  onUpdateItem: (value: string) => void;
-  onRemoveItem?: () => void;
+    items: ReadingListItem[];
+    onUpdateItem: () => void;
 }
 
-export default function ReadingList({ items, onUpdateItem, onRemoveItem }: ReadingListProps) {
-  return (
-    <div className="reading-list">
-      <h1>My reading list: {items.map((book) => (
-                <p key={book.id}>Title: <i>{book.title}</i></p>))}
-      </h1>
-    </div>
-  );
+export default function ReadingList({items, onUpdateItem}: ReadingListProps) {
+
+    return (
+        <div className="reading-list">
+            {items ? items.map((readingListItem) => (
+                <BookCard
+                    key={readingListItem.book.id}
+                    book={readingListItem.book}
+                    isInReadingList={items.some(
+                        (readingBook) => readingBook.book.id === readingListItem.book.id
+                    )}
+                    onAddToList={onUpdateItem}
+                />
+            )) : <p> No books currently on your reading list</p>
+            }
+        </div>
+    )
 }

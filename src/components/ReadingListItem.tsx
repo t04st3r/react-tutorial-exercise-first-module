@@ -1,16 +1,20 @@
-import type {ReadingListItem} from "../types/book.ts";
+import type {Book, ReadingListItem} from "../types/book.ts";
+import BookCard from "./BookCard";
 
 type ReadingListItemProps = {
-  ReadingLists: ReadingListItem[];
-  selectedReadingList: string;
-  onSelectReadingList: () => void;
+    book: Book;
 };
 
-export default function ReadingListItem({ReadingLists, selectedReadingList, onSelectReadingList}: ReadingListItemProps) {
-
+export default function ReadingListItem({ book }: ReadingListItemProps) {
     return (
         <div className='reading-list'>
-
+            <BookCard
+                key={book.id}
+                book={book}
+                isInReadingList={true}
+                onAddToList={() => {/* handle add */
+                }}
+            />
         </div>
-  )
+    );
 }

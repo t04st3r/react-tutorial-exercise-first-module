@@ -5,10 +5,9 @@ type BookListProps = {
   books: Book[];
   readingList: Book[];
   onAddToList: () => void;
-  onRemoveFromList: () => void;
 };
 
-export default function BookList({books, readingList, onAddToList, onRemoveFromList }: BookListProps) {
+export default function BookList({books, readingList, onAddToList }: BookListProps) {
 
     return (
         <div className="book-list">
@@ -20,7 +19,7 @@ export default function BookList({books, readingList, onAddToList, onRemoveFromL
                                     (readingBook) => readingBook.id === book.id
                     )}
                     onAddToList={onAddToList}
-                    onRemoveFromList={onRemoveFromList}
+                    // onRemoveFromList={onRemoveFromList}
                 />
             )) : <p> No Books Found</p>
             }

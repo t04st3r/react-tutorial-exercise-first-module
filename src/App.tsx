@@ -8,7 +8,6 @@ import ReadingList from "./components/ReadingList.tsx";
 function App() {
     const [books, setBooks] = useState<Book[] | null>(null);
     const [userInput, setUserInput] = useState<string>('');
-    const [readingList, setReadingList] = useState<Book[] | null>(null);
 
 
     async function handleFetch() {
