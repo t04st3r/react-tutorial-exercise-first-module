@@ -1,6 +1,6 @@
 import type { Book } from './book.ts';
 
-type ReadStatus = 'to-read' | 'reading' | 'completed' | 'abandoned';
+export type ReadStatus = 'to-read' | 'reading' | 'completed';
 
 export interface ReadingListItem {
   book: Book;

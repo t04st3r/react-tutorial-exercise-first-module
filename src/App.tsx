@@ -4,11 +4,11 @@ import { useState } from "react";
 
 import BookList from './components/BookList';
 import LanguageFilter from './components/LanguageFilter';
+import ReadingList from './components/ReadingList';
 import SearchBar from './components/SearchBar'
 import type { Book } from "./types/book";
-import type { ReadingListItem } from './types/readingList';
+import type { ReadingListItem, ReadStatus } from './types/readingList';
 import { ALL_LANGUAGES, lookUpBook } from './utils/book'
-import ReadingList from './components/ReadingList';
 import { format } from './utils/dates';
 
 function App() {
@@ -43,20 +43,44 @@ function App() {
   }
 
   const handleRemoveFromReadingList = (item: ReadingListItem) => {
-    const updatedReadingList = readingList.filter(other => item.book.id !== other.book.id);
+    const updatedReadingList = readingList.filter(current => item.book.id !== current.book.id);
+    setReadingList(updatedReadingList);
+  }
+
+  const handleUpdateReadingStatus = (item: ReadingListItem) => {
+    const transitionToNextStatus = (readingListItem: ReadingListItem): ReadingListItem => {
+      if (readingListItem.status === 'completed') {
+        throw new Error('Cannot change the status of a completed book');
+      }
+      const nextStatus: ReadStatus = readingListItem.status === 'to-read' ? 'reading' : 'completed';
+      return { ...readingListItem, status: nextStatus };
+    }
+
+    const updatedReadingList = readingList.map(current => {
+      return current.book.id === item.book.id ? transitionToNextStatus(current) : current;
+    })
     setReadingList(updatedReadingList);
   }
 
   return (
     <>
-      <ReadingList items={readingList} onUpdateItem={() => { }} onRemoveItem={handleRemoveFromReadingList} />
+      <h1>DEEZ BOOKS</h1>
+      <ReadingList
+        items={readingList}
+        onUpdateItem={handleUpdateReadingStatus}
+        onRemoveItem={handleRemoveFromReadingList}
+      />
       <SearchBar onSubmit={handleSearch} />
       <LanguageFilter
         languages={languages}
         selectedLanguage={selectedLanguage}
         onSelectLanguage={handleSelectLanguage}
       />
-      <BookList books={visibleSearchResults} onAddToList={handleAddToReadingList} readingList={readingList} />
+      <BookList
+        books={visibleSearchResults}
+        onAddToList={handleAddToReadingList}
+        readingList={readingList}
+      />
     </>
   )
 }

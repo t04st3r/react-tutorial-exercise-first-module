@@ -3,7 +3,7 @@ import ReadingListCard from "./ReadingListCard";
 
 interface ReadingListProps {
   items: ReadingListItem[],
-  onUpdateItem: () => void,
+  onUpdateItem: (item: ReadingListItem) => void,
   onRemoveItem: (item: ReadingListItem) => void,
 }
 
@@ -13,7 +13,12 @@ const ReadingList = ({ items, onUpdateItem, onRemoveItem }: ReadingListProps) =>
       {items.length === 0
         ? <p>Reading list is empty. Add some books!</p>
         : items.map(
-          item => <ReadingListCard key={item.book.id} item={item} onRemoveItem={onRemoveItem} />
+          item => <ReadingListCard
+            key={item.book.id}
+            item={item}
+            onUpdateItem={onUpdateItem}
+            onRemoveItem={onRemoveItem}
+          />
         )
       }
     </div>
