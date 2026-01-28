@@ -1,10 +1,10 @@
-import type {Book} from "../types/book.ts";
+import type {Book, ReadingListItem} from "../types/book.ts";
 import BookCard from "./BookCard.tsx";
 
 type BookListProps = {
   books: Book[];
-  readingList: Book[];
-  onAddToList: () => void;
+  readingList: ReadingListItem[];
+  onAddToList: (book: Book) => void;
 };
 
 export default function BookList({books, readingList, onAddToList }: BookListProps) {
@@ -16,10 +16,9 @@ export default function BookList({books, readingList, onAddToList }: BookListPro
                     key={book.id}
                     book={book}
                     isInReadingList={readingList.some(
-                                    (readingBook) => readingBook.id === book.id
+                                    (readingBook) => readingBook.book.id === book.id
                     )}
                     onAddToList={onAddToList}
-                    // onRemoveFromList={onRemoveFromList}
                 />
             )) : <p> No Books Found</p>
             }

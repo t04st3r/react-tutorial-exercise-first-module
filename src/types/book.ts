@@ -8,7 +8,7 @@ export interface Book {
   coverImage: string;
   publishedYear: number;
   genre: string;
-  pageCount: number;
+  number_of_pages_median: number;
   cover_i: number;
 }
 
@@ -17,10 +17,4 @@ export interface ReadingListItem {
   status: 'to-read' | 'reading' | 'completed';
   currentPage: number;
   dateAdded: string;
-}
-
-export type OpenLibraryResponse = {
-  numFound: number;
-  docs: Book[]
-
 }

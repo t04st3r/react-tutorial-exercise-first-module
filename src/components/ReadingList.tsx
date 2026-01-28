@@ -1,27 +1,41 @@
-import type {Book, ReadingListItem} from "../types/book.ts";
-import BookCard from "./BookCard.tsx";
 import {useState} from "react";
+import type {ReadingListItem} from "../types/book.ts";
+import ReadingListItemC from "./ReadingListItem.tsx";
 
 interface ReadingListProps {
     items: ReadingListItem[];
-    onUpdateItem: () => void;
+    onUpdateItem: (bookId: string, updates: Partial<ReadingListItem>) => void;
+    onRemoveItem: (bookId: string) => void;
 }
 
-export default function ReadingList({items, onUpdateItem}: ReadingListProps) {
+export default function ReadingList({items, onUpdateItem, onRemoveItem}: ReadingListProps) {
+    const [statusFilter, setStatusFilter] = useState<string>('all');
+    const filteredItems = statusFilter === 'all'
+        ? items
+        : items.filter(item => item.status === statusFilter);
 
     return (
         <div className="reading-list">
-            {items ? items.map((readingListItem) => (
-                <BookCard
-                    key={readingListItem.book.id}
-                    book={readingListItem.book}
-                    isInReadingList={items.some(
-                        (readingBook) => readingBook.book.id === readingListItem.book.id
-                    )}
-                    onAddToList={onUpdateItem}
-                />
-            )) : <p> No books currently on your reading list</p>
-            }
+            <div className="status-filters">
+                <button onClick={() => setStatusFilter('all')}>All</button>
+                <button onClick={() => setStatusFilter('to-read')}>To Read</button>
+                <button onClick={() => setStatusFilter('reading')}>Reading</button>
+                <button onClick={() => setStatusFilter('completed')}>Completed</button>
+            </div>
+
+            {/* Reading list items */}
+            {filteredItems.length > 0 ? (
+                filteredItems.map((item) => (
+                    <ReadingListItemC
+                        key={item.book.id}
+                        item={item}
+                        onUpdateItem={onUpdateItem}
+                        onRemoveItem={onRemoveItem}
+                    />
+                ))
+            ) : (
+                <p>No books in this category</p>
+            )}
         </div>
-    )
+    );
 }

@@ -1,13 +1,11 @@
 import type {Book} from "../types/book.ts";
 import {IconButton} from "@mui/material";
-import {BookmarkAdded} from "@mui/icons-material";
-
+import {BookmarkAdd} from "@mui/icons-material";
 
 type BookProps = {
-  book: Book;
-  isInReadingList: boolean;
-  onAddToList: () => void;
-  // onRemoveFromList: () => void;
+    book: Book;
+    isInReadingList: boolean;
+    onAddToList: (book: Book) => void;
 };
 
 export default function BookCard({book, isInReadingList, onAddToList}: BookProps) {
@@ -16,20 +14,33 @@ export default function BookCard({book, isInReadingList, onAddToList}: BookProps
         <div className='card'>
             <h2>{book.title}</h2>
 
-            {book.cover_i ?
-                <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
-                     className="book-image" alt="Cover image of the book" /> :
+            {book.cover_i ? (
+                <img
+                    src={`https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`}
+                    className="book-image"
+                    alt={`Cover of ${book.title}`}
+                />
+            ) : (
                 <p>No image available</p>
-            }
+            )}
 
             {book.author_name.map((author, idx) => (
-                <p key={book.author_key[idx]}>By: <i>{author}</i></p>))}
+                <p key={book.author_key[idx]}>By: <i>{author}</i></p>
+            ))}
 
-            { isInReadingList ? <IconButton aria-label="already-added" size="large" onClick={onAddToList}>
-                    <BookmarkAdded />
-                </IconButton> : <p>Already in reading list</p>
-            }
+            <p>Year: {book.publishedYear}</p>
 
+            {isInReadingList ? (
+                <p>Already in reading list ✓</p>
+            ) : (
+                <IconButton
+                    aria-label="add-to-reading-list"
+                    size="large"
+                    onClick={() => onAddToList(book)}
+                >
+                    <BookmarkAdd/>
+                </IconButton>
+            )}
         </div>
-  )
+    );
 }
